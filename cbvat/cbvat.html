@@ -290,6 +290,78 @@
             .navbar { height: 80px; }
             .sub-page-container { margin-top: 110px; }
         }
+
+        /* mới Màu cho chương đã đọc */
+        .scroll-links a.read {
+            color: #a29bfe !important; /* Màu tím nhạt */
+            border-color: #6c5ce7;
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        /* Thu gọn mô tả */
+        .info-right {
+            flex:1;
+            padding: 40px;
+            display:flex;
+            flex-direction: column;
+            text-align: left;
+            overflow:hidden;
+            justify-content: flex-start;
+        }
+        .description-content {
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: rgba{255, 255, 255, 0.8};
+            margin-bottom: 45px;
+        }
+
+        /* Kiểu dáng cho cụm nút bấm */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto; /* Đẩy cụm nút xuống dưới cùng của box */
+        }
+
+        .btn-action {
+            height: 45px;
+            padding: 0 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Nút Đọc tiếp */
+        .btn-continue {
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            color: #000;
+        }
+
+        .btn-continue:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Nút Đọc từ đầu */
+        .btn-restart {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-restart:hover {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: #ff4757;
+            color: #ff4757;
+        }
     </style>
 </head>
 <body>
@@ -334,9 +406,14 @@
             </div>
             <div class="info-right">
                 <h1 style="color: #00d4ff; font-size: 30px;">Cách bảo vệ anh trai của nữ chính</h1>
+                <h3 style="color: red; font-size: 20px;"> Drop</h3>
                 <div class="description-content">
-                    <p style="color:#c8ff00;"><strong>Drop</strong></p>
                     <p><strong>Roxana Agriche</strong>, một nhân vật phản diện phụ của phụ. "Người cha chết tiệt của tôi đã bắt cóc anh trai của nữ chính. Điều gì đang chờ đợi tới kết cục khủng khiếp từ sự báo thù của nữ chính đây? Nhưng nếu tôi có thể tránh được thì sao? Tôi sẽ bảo vệ anh ta cho đến khi anh ta có thể ra khỏi đây an toàn. Anh trai của nữ chính, Kassis Pedalian, chắc chắn sẽ nhớ ơn tôi sau này."</p>
+                </div>
+
+               <div class="action-buttons">
+                    <a href="#" id="btnContinue" class="btn-action btn-continue">⟿ Đọc tiếp</a>
+                    <button onclick="restartReading()" class="btn-action btn-restart">↺ Đọc từ đầu</button>
                 </div>
             </div>
         </div>
@@ -424,6 +501,76 @@
             if(stars) {
                 stars.style.transform = `translateY(${scrollValue * -0.15}px)`;
             }
+        });
+
+        function toggleMenu() {
+            const btn = document.getElementById("menuBtn");
+            const overlay = document.getElementById("menuOverlay");
+            btn.classList.toggle("open");
+            overlay.classList.toggle("active");
+            if (!overlay.classList.contains("active")) {
+                setTimeout(closeSubMenu, 300);
+            }
+        }
+
+        function openSubMenu() {
+            document.getElementById("mainMenu").classList.add("slide-out");
+            document.getElementById("subMenu").classList.add("sub-active");
+        }
+
+        function closeSubMenu() {
+            document.getElementById("mainMenu").classList.remove("slide-out");
+            document.getElementById("subMenu").classList.remove("sub-active");
+        }
+
+        function closeOutside(e) {
+            if (e.target.id === "menuOverlay") toggleMenu();
+        }
+
+                        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll(".scroll-links a");
+            const btnContinue = document.getElementById("btnContinue");
+
+            // TỰ ĐỘNG TẠO ID RIÊNG: Lấy tiêu đề <h1> của truyện làm ID lưu trữ //                
+            // Ví dụ: "Vòng xoáy chị em" -> storageKey sẽ là "read_Vòng xoáy chị em"
+            const storyTitle = document.querySelector(".info-right h1").innerText.trim();
+            const storageKey = "readChapters_" + storyTitle; 
+
+            let readChapters = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            // 1. Tô màu tím cho các chương đã đọc
+            links.forEach(link => {
+                const chapterHref = link.getAttribute("href");
+                if (readChapters.includes(chapterHref)) {
+                    link.classList.add("read");
+                }
+
+                link.addEventListener("click", function() {
+                    if (!readChapters.includes(chapterHref)) {
+                        readChapters.push(chapterHref);
+                        localStorage.setItem(storageKey, JSON.stringify(readChapters));
+                    }
+                    this.classList.add("read");
+                });
+            });
+
+        
+            // 2. Xử lý nút "Đọc tiếp" cho riêng truyện này
+            if (readChapters.length > 0) {
+                const lastChapter = readChapters[readChapters.length - 1];
+                btnContinue.setAttribute("href", lastChapter);
+                btnContinue.innerHTML = "⟿ Đọc tiếp Chương" + lastChapter.replace(".html", "");
+            } else {
+                btnContinue.setAttribute("href", "1.html");
+            }
+
+            // 3. Cập nhật hàm Xóa lịch sử để chỉ xóa đúng truyện này
+            window.restartReading = function() {
+                if (confirm(`Bạn muốn xóa lịch sử đọc của truyện "${storyTitle}"?`)) {
+                    localStorage.removeItem(storageKey);
+                    location.reload();
+                }
+            };
         });
     </script>
 </body>

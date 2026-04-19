@@ -438,6 +438,13 @@
         .dropdown-content a:not(.back-home) {
             /* Giữ nguyên style cũ của bạn */
         }
+
+        .chapter-container img {
+            /* ... các code cũ ... */
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            /* Tạo hiệu ứng mờ nhẹ ở 2 cạnh bên để hòa quyện vào nền vũ trụ */
+        }
+        
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
@@ -658,6 +665,30 @@
                 }
             }
         }
+
+        /* lưu lịch sử đọc khi sang chương */
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Xác định ID truyện (phải khớp hoàn toàn với tên ở trang mô tả)
+            // Ở trang mô tả bạn dùng thẻ <h1> để lấy tên, 
+            // ở đây ta lấy từ link "Quay lại" trong dropdown cho chính xác
+            const storyTitleElement = document.querySelector(".dropdown-header a");
+            if (!storyTitleElement) return;
+
+            const storyTitle = storyTitleElement.innerText.replace("⇜", "").trim();
+            const storageKey = "readChapters_" + storyTitle;
+
+            // 2. Lấy tên file hiện tại (ví dụ: "1.html")
+            const currentChapter = window.location.pathname.split("/").pop();
+
+            // 3. Cập nhật localStorage
+            let readChapters = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            if (currentChapter && !readChapters.includes(currentChapter)) {
+                readChapters.push(currentChapter);
+                localStorage.setItem(storageKey, JSON.stringify(readChapters));
+                console.log("Đã lưu lịch sử cho: " + currentChapter);
+            }
+        });
     </script>
 </body>
 </html>
