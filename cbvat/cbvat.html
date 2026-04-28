@@ -189,26 +189,32 @@
         }
 
         .glass-box {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+            background: rgba(10, 10, 10, 0.25);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 
+            inset 0 0 15px rgba(0, 212, 255, 0.05);
             width: 100%;
             overflow: hidden;
+            transition: all 0.4s ease;
             display: flex;
-            transition: 0.3s;
+            padding: 20px;
+        }
+
+        .glass-box:hover {
+            border-color:rgba(0, 212, 255, 0.7);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 1),
+            0 0 25px rgba(0, 212, 255, 0.4),
+            0 0 60px rgba(0, 212, 255, 0.25);
+            transform:translateY(-6px) scale(1.01);
         }
 
         .info-box { height: 550px; }
 
         .info-left {
-            flex: 0 0 40%;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.03);
+            position:relative;
+            overflow:hidden;
+            border-radius: 16px 0 0 16px;
         }
 
         .info-left img {
@@ -216,9 +222,18 @@
             height: 100%;
             object-fit: cover;
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            image-rendering: -webkit-optimize-contrast;
-            filter:saturate(115%) contrast(105%);
+            border: none;
+        }
+
+        .info-left::after {
+            content: "";
+            position:absolute;
+            inset:0;
+            background: linear-gradient(
+                to right,
+                rgba(0,0,0,0.2),
+                transparent 30%
+            );
         }
 
         .info-right {
@@ -246,6 +261,7 @@
         }
 
         .scroll-links {
+            position:relative;
             flex: 1;
             overflow-y: auto;
             display: flex;
@@ -312,7 +328,7 @@
             margin-top: 20px;
             font-size: 16px;
             line-height: 1.8;
-            color: rgba{255, 255, 255, 0.8};
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 45px;
         }
 
@@ -362,6 +378,34 @@
             border-color: #ff4757;
             color: #ff4757;
         }
+
+        .scroll-links a.read {
+            box-shadow: inset 0 0 5px rgba(162, 155, 254, 0.3);
+        }
+
+        .all-chapter-btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            background: rgba(255, 0, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255,0,255,0.5);
+            border: 1px solid #ff00ff;
+            color: #ff00ff !important;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+
+        }
+
+        .all-chapter-btn:hover {
+            background: rgba(255, 0, 255, 0.2) !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(255,0,255,0.5) inset 0 0 10px rgba(255,0,255,0.3); /* Thanh dọc nhỏ bên trái khi hover */
+            border-color: #ff00ff !important;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -406,65 +450,23 @@
             </div>
             <div class="info-right">
                 <h1 style="color: #00d4ff; font-size: 30px;">Cách bảo vệ anh trai của nữ chính</h1>
-                <h3 style="color: red; font-size: 20px;"> Drop</h3>
+                <h3 style="color:#00ff88; font-size: 20px;"> Đã hoàn thành</h3>
                 <div class="description-content">
                     <p><strong>Roxana Agriche</strong>, một nhân vật phản diện phụ của phụ. "Người cha chết tiệt của tôi đã bắt cóc anh trai của nữ chính. Điều gì đang chờ đợi tới kết cục khủng khiếp từ sự báo thù của nữ chính đây? Nhưng nếu tôi có thể tránh được thì sao? Tôi sẽ bảo vệ anh ta cho đến khi anh ta có thể ra khỏi đây an toàn. Anh trai của nữ chính, Kassis Pedalian, chắc chắn sẽ nhớ ơn tôi sau này."</p>
                 </div>
-
-               <div class="action-buttons">
+                
+                <div class="action-buttons">
                     <a href="#" id="btnContinue" class="btn-action btn-continue">⟿ Đọc tiếp</a>
                     <button onclick="restartReading()" class="btn-action btn-restart">↺ Đọc từ đầu</button>
-                </div>
+                </div>                
             </div>
         </div>
 
         <div class="glass-box links-box">
             <h2 style="color: #00ff88; text-align: left; border-left: 5px solid #00ff88; padding-left: 15px;">Danh Sách Chương</h2>
-            <div class="scroll-links">
-                <a href="1.html">Chương 01</a>
-                <a href="2.html">Chương 02</a>
-                <a href="3.html">Chương 03</a>
-                <a href="4.html">Chương 04</a>
-                <a href="5.html">Chương 05</a>
-                <a href="6.html">Chương 06</a>
-                <a href="7.html">Chương 07</a>
-                <a href="8.html">Chương 08</a>
-                <a href="9.html">Chương 09</a>
-                <a href="10.html">Chương 10</a>
-                <a href="11.html">Chương 11</a>
-                <a href="12.html">Chương 12</a>
-                <a href="13.html">Chương 13</a>
-                <a href="14.html">Chương 14</a>
-                <a href="15.html">Chương 15</a>
-                <a href="16.html">Chương 16</a>
-                <a href="17.html">Chương 17</a>
-                <a href="18.html">Chương 18</a>
-                <a href="19.html">Chương 19</a>
-                <a href="20.html">Chương 20</a>
-                <a href="21.html">Chương 21</a>
-                <a href="22.html">Chương 22</a>
-                <a href="23.html">Chương 23</a>
-                <a href="24.html">Chương 24</a>
-                <a href="25.html">Chương 25</a>
-                <a href="26.html">Chương 26</a>
-                <a href="27.html">Chương 27</a>
-                <a href="28.html">Chương 28</a>
-                <a href="29.html">Chương 29</a>
-                <a href="30.html">Chương 30</a>
-                <a href="31.html">Chương 31</a>
-                <a href="32.html">Chương 32</a>
-                <a href="33.html">Chương 33</a>
-                <a href="34.html">Chương 34</a>
-                <a href="35.html">Chương 35</a>
-                <a href="36.html">Chương 36</a>
-                <a href="37.html">Chương 37</a>
-                <a href="38.html">Chương 38</a>
-                <a href="39.html">Chương 39</a>
-                <a href="40.html">Chương 40</a>
-                <a href="41.html">Chương 41</a>
-                <a href="42.html">Chương 42</a>
-                <a href="43.html">Chương 43</a>
-            </div>
+
+            <div class="scroll-links" id="chapter-list">
+            </div>                           
         </div>
 
     </div>
@@ -527,39 +529,74 @@
             if (e.target.id === "menuOverlay") toggleMenu();
         }
 
-                        document.addEventListener("DOMContentLoaded", function() {
+        // --- PHẦN XỬ LÝ GHI NHỚ CHƯƠNG ĐÃ ĐỌC ---
+        document.addEventListener("DOMContentLoaded", function() {
             const links = document.querySelectorAll(".scroll-links a");
             const btnContinue = document.getElementById("btnContinue");
-
-            // TỰ ĐỘNG TẠO ID RIÊNG: Lấy tiêu đề <h1> của truyện làm ID lưu trữ //                
-            // Ví dụ: "Vòng xoáy chị em" -> storageKey sẽ là "read_Vòng xoáy chị em"
             const storyTitle = document.querySelector(".info-right h1").innerText.trim();
             const storageKey = "readChapters_" + storyTitle; 
-
             let readChapters = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-            // 1. Tô màu tím cho các chương đã đọc
+            // --- PHẦN MỚI: TỰ ĐỘNG CẬP NHẬT CHƯƠNG VỪA ĐỌC XONG --- //                   
+            // Kiểm tra nếu người dùng vừa quay về từ một trang chương (ví dụ: 6.html)
+            const lastVisited = document.referrer; // Lấy URL của trang trước đó
+            if (lastVisited.includes('.html')) {
+                const filename = lastVisited.split('/').pop(); // Lấy tên file, ví dụ "6.html"
+                // Nếu file này có trong danh sách chương và chưa được lưu là chương cuối
+                const isChapter = Array.from(links).some(link => link.getAttribute("href") === filename);
+                if (isChapter) {
+                    // Xóa nếu đã tồn tại để đẩy nó xuống cuối mảng (làm chương mới nhất)
+                    readChapters = readChapters.filter(ch => ch !== filename);
+                    readChapters.push(filename);
+                    localStorage.setItem(storageKey, JSON.stringify(readChapters));
+                }
+            }
+            // ---------------------------------------------------
+
+            // 1. Tô màu tím cho các chương đã đọc //                    
             links.forEach(link => {
                 const chapterHref = link.getAttribute("href");
                 if (readChapters.includes(chapterHref)) {
                     link.classList.add("read");
                 }
-
                 link.addEventListener("click", function() {
-                    if (!readChapters.includes(chapterHref)) {
-                        readChapters.push(chapterHref);
-                        localStorage.setItem(storageKey, JSON.stringify(readChapters));
-                    }
-                    this.classList.add("read");
-                });
-            });
+                    readChapters = readChapters.filter(ch => ch !== chapterHref);
+                    readChapters.push(chapterHref);
+                    localStorage.setItem(storageKey, JSON.stringify(readChapters));
+                    });
+            });     
 
-        
-            // 2. Xử lý nút "Đọc tiếp" cho riêng truyện này
+            // ... (Giữ nguyên phần xử lý nút Đọc tiếp và Cuộn nội bộ ở dưới)
+            // 2. Xử lý nút "Đọc tiếp"
             if (readChapters.length > 0) {
                 const lastChapter = readChapters[readChapters.length - 1];
                 btnContinue.setAttribute("href", lastChapter);
-                btnContinue.innerHTML = "⟿ Đọc tiếp Chương" + lastChapter.replace(".html", "");
+                const chapterName = lastChapter.replace(".html","");
+                btnContinue.innerHTML = `⟿ Đọc tiếp Chương ${chapterName}`;        
+                // 4. TỰ ĐỘNG CUỘN NỘI BỘ ĐẾN CHƯƠNG CUỐI CÙNG
+                const lastReadElement = Array.from(links).find(link => link.getAttribute("href") === lastChapter);
+                if (lastReadElement) {
+                    // Tăng thời gian chờ lên 800ms để đảm bảo CSS Glassmorphism đã render xong
+                    setTimeout(() => {
+                        const container = document.querySelector(".scroll-links");
+                        if (container) {
+                            // Tính toán vị trí để chương nằm giữa Box 2
+                            const centerOffset = (container.offsetHeight / 2) - (lastReadElement.offsetHeight / 2);
+                            const topPos = lastReadElement.offsetTop - centerOffset;
+                            // Thực hiện cuộn nội bộ
+                            container.scrollTo({
+                                top: topPos,
+                                behavior: "smooth"
+                            });
+
+                            // Làm sáng chương cuối cùng (Dùng style trực tiếp để đè CSS cũ)
+                            lastReadElement.style.setProperty("border", "1px solid #00ff88", "important");
+                            lastReadElement.style.setProperty("box-shadow", "0 0 20px rgba(0, 255, 136, 0.6), inset 0 0 10px rgba(0, 255, 136, 0.3)", "important");
+                            lastReadElement.style.setProperty("color", "#00ff88", "important");
+                            lastReadElement.style.setProperty("background", "rgba(0, 255, 136, 0.15)", "important");
+                        }
+                    }, 500); 
+                }
             } else {
                 btnContinue.setAttribute("href", "1.html");
             }
@@ -571,7 +608,22 @@
                     location.reload();
                 }
             };
-        });
+        });    
+    </script>
+    <script>
+        const container = document.getElementById('chapter-list');
+        let content = "";
+
+        // Chạy vòng lặp từ 1 đến 215
+        for (let i = 1; i <= 43; i++) {
+            // Định dạng số: nếu < 10 thì thêm "0" (01, 02...), nếu >= 10 thì giữ nguyên
+            let chapterNum = i < 10 ? "0" + i : i;
+        
+            // Tạo chuỗi HTML cho mỗi chương
+            content += `<a href="${i}.html">Chương ${chapterNum}</a>\n`;
+        }
+        // Chèn toàn bộ vào container
+        container.innerHTML = content;
     </script>
 </body>
 </html>
