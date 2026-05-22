@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuộc sống mới của công nương  (´｡•᎑•)っ  Chương 16</title>
+    <style>
+        /* 1. CẤU HÌNH NỀN VÀ SAO (ĐỒNG BỘ TRANG CHỦ) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            color: white;
+            background: #050505 url('https://images.unsplash.com/photo-1506318137071-a8e063b4b519?q=80&w=2070') fixed center/cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stars-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            z-index: 0; pointer-events: none;
+            opacity: 1; filter: brightness(2) contrast(1.5); 
+        }
+       
+        /* 2. NAVBAR */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 30px; height: 60px;
+            background: rgba(26, 26, 26, 0.9); backdrop-filter: blur(10px);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* 1. CẬP NHẬT LOGO VỚI FONT VÀ HIỆU ỨNG NEON */
+
+        .logo {
+            font-family: 'Permanent Marker', cursive; /* Sử dụng font mới */
+            font-size: 24px; /* Giữ nguyên kích cỡ cân đối */
+            text-decoration: none;
+            font-weight: normal;
+    
+            /* Hiệu ứng loang màu chạy liên tục */
+            background: linear-gradient(
+            90deg, 
+            #00d4ff, #00ff88, #00d4ff, #ff00ff, #00d4ff
+            );
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 3s linear infinite;
+
+            /* Bóng đổ Neon xanh cực mạnh */
+            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.8)) 
+            drop-shadow(0 0 15px rgba(0, 212, 255, 0.6))
+            drop-shadow(0 0 30px rgba(0, 212, 255, 0.4));
+        }
+
+        /* Animation cho màu chạy loang loáng */
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        /* 2. TĂNG CƯỜNG SAO LẤP LÁNH */
+        .stars-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            z-index: 0; pointer-events: none;
+            opacity: 0.8; 
+            filter: brightness(2.5) contrast(1.2); 
+            background-attachment:fixed;
+            transform:none !important;
+        }
+
+        /* 3. NỘI DUNG CHƯƠNG (ẢNH TRUYỆN) */
+        .chapter-container {
+            position: relative; 
+            z-index: 1;
+            margin-top: 80px;
+            max-width: 800px; /* Độ rộng tối ưu để đọc truyện */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* Ảnh truyện thường xếp liền nhau */
+            line-height: 0;
+            font-size: 0;
+
+        }
+        .chapter-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin: -1px 0 0 0;
+            padding: 0;
+            border: none;
+            outline:none;
+            image-rendering: -webkit-optimize-contrast;
+            box-shadow: none;
+            filter:saturate(125%) contrast(105%) ;
+            backface-visibility: hidden;
+            transform:translateZ(0);
+            /* TỐI ƯU QUAN TRỌNG */
+            content-visibility: auto; /* Chỉ render những ảnh trong vùng nhìn thấy */
+            contain-intrinsic-size: 1px 1000px; /* Giữ chỗ cho ảnh trước khi load để tránh nhảy trang (giật) */
+            image-rendering: -webkit-optimize-contrast; /* Giúp ảnh nét hơn */
+    
+            /* Giảm tải cho CPU khi cuộn */
+            will-change: transform; 
+            transform: translateZ(0);
+        }
+
+        /* 4. ĐIỀU HƯỚNG (NAVIGATION) */
+        .navigation {
+            position: relative; z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            padding: 50px 0 100px;
+            width: 100%;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 50%;
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 24px;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-btn:hover {
+            background: #00d4ff;
+            color: black;
+            box-shadow: 0 0 30px #00d4ff;
+            transform: scale(1.1);
+        }
+
+        /* Nhãn hiển thị phím tắt */
+        .nav-hint {
+            position: absolute;
+            bottom: -30px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            white-space: nowrap;
+        }
+
+        .btn-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Tùy chỉnh cho nút bị vô hiệu hóa (nếu không có chương trước) */
+        .nav-btn.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            border-color: #555;
+            color: #555;
+        }
+
+        /* 4. ĐIỀU HƯỚNG CHI TIẾT (SCI-FI STYLE) */
+        .navigation {
+            position: relative; z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 80px;
+            padding: 80px 0 120px;
+            width: 100%;
+        }
+
+        .nav-btn {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.5s;
+        }
+
+        /* Vòng tròn năng lượng bên ngoài */
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3), inset 0 0 15px rgba(0, 212, 255, 0.3);
+            animation: rotateRing 4s linear infinite;
+        }
+
+        /* Chấm nhỏ trang trí chạy quanh vòng tròn */
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 115%;
+            height: 115%;
+            border: 2px dashed rgba(255, 0, 255, 0.4);
+            border-radius: 50%;
+            animation: rotateRingRev 10s linear infinite;
+        }
+
+        @keyframes rotateRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotateRingRev {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        /* Lõi nút chứa mũi tên */
+        .btn-core {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            border: 1px solid rgba(0, 212, 255, 0.8);
+            color: #00d4ff;
+            font-size: 30px;
+            text-shadow: 0 0 10px #00d4ff;
+            transition: 0.4s;
+        }
+
+        /* Hiệu ứng khi Hover */
+        .nav-btn:hover .btn-core {
+            box-shadow: 0 0 30px #00d4ff, inset 0 0 20px #00d4ff;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-btn:hover::before {
+            border-color: #00d4ff;
+            box-shadow: 0 0 40px #00d4ff;
+        }
+
+        /* Nhãn chữ TRƯỚC / TIẾP */
+        .btn-label {
+            position: absolute;
+            bottom: -35px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #00d4ff;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px #00d4ff;
+        }
+
+        /* Phím tắt hỗ trợ bên dưới */
+        .nav-hint {
+            position: absolute;
+            bottom: -60px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Nút màu tím cho "Tiếp theo" */
+        #nextBtn::before { border-color: rgba(255, 0, 255, 0.5); box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); }
+        #nextBtn .btn-core { border-color: #ff00ff; color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+        #nextBtn:hover .btn-core { box-shadow: 0 0 30px #ff00ff, inset 0 0 20px #ff00ff; }
+        #nextBtn .btn-label { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+
+        /* Vô hiệu hóa nút */
+        .nav-btn.disabled {
+            filter: grayscale(1);
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* DROPDOWN CONTAINER */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* NÚT CHỌN CHƯƠNG */
+        .dropbtn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ccc;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .dropbtn:hover {
+            border-color: #00d4ff;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .arrow-down {
+            font-size: 10px;
+            margin-left: 5px;
+            color: #00d4ff;
+        }
+
+        /* NỘI DUNG DANH SÁCH THẢ XUỐNG */
+        .dropdown-content {
+            display: none; /* Ẩn mặc định */
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(15px);
+            min-width: 250px;
+            max-height: 400px;
+            overflow-y:auto;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            animation: slideDown 0.3s ease;
+        }
+
+        .dropdown-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dropdown-content::-webkit-scrollbar-track{
+            background:rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-content::-webkit-scrollbar-thumb{
+            background:#00d4ff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        .dropdown-content::-webkit-scrollbar-thumb:hover{
+            background:#00ff88
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-content a {
+            color: #aaa;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            padding-left: 20px;
+        }
+
+        .dropdown-content a.active {
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+            font-weight: bold;
+        }
+
+        /* Hiển thị khi có class 'show' */
+        .show { display: block; }
+
+        /* Tăng cường cho container chính */
+
+        .dropdown-content {
+
+            /* Giữ nguyên các code cũ, đảm bảo có max-height và overflow-y: auto */
+
+            max-height: 400px;
+
+            overflow-y: auto;
+
+            padding-top: 0; /* Đảm bảo không có khoảng cách phía trên */
+
+        }
+
+        /* PHẦN CỐ ĐỊNH TRÊN ĐẦU */
+        .dropdown-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(20, 20, 20, 0.98); /* Nền đậm hơn một chút để không bị lẫn với chữ bên dưới khi cuộn */
+            backdrop-filter: blur(10px);
+        }
+
+        .back-home {
+            color: #00d4ff !important; /* Màu xanh đặc trưng của bạn */
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 13px !important;
+            letter-spacing: 1px;
+            padding: 15px 16px !important;
+            display: block;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            background: rgba(0, 212, 255, 0.15) !important;
+            text-shadow: 0 0 10px #00d4ff;
+        }
+
+        /* Đảm bảo các link chương không bị dính vào header */
+        .dropdown-content a:not(.back-home) {
+            /* Giữ nguyên style cũ của bạn */
+        }
+
+        .chapter-container img {
+            /* ... các code cũ ... */
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            /* Tạo hiệu ứng mờ nhẹ ở 2 cạnh bên để hòa quyện vào nền vũ trụ */
+        }
+
+        /* Style riêng cho nút ALL */
+        .all-chapter-special {
+            color: #ff00ff !important; /* Màu tím đặc trưng cho chương đặc biệt */
+            text align:center;
+            font-weight:bold;
+            border: 1px solid rgba(255,0,255,0.3) !important;
+            margin: 8px;
+            border-radius:8px;
+            background:rgba(255,0,255,0.05);
+            transition:all 0.3s ease !important;
+            display:block;
+            text-decoration:none;
+            letter-spacing:1px;
+        }
+
+        .all-chapter-special:hover {
+            background: rgba(255, 0, 255, 0.2) !important; /* Màu rgba từ #673147 */
+            color: white !important;
+            box-shadow: 0 0 15px rgba(255,0,255,0.5) inset 0 0 10px rgba(255,0,255,0.9); /* Thanh dọc nhỏ bên trái khi hover */
+            border-color: #ff00ff !important;
+            transform: translateY(-2px);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="stars-overlay"></div>
+
+    <header class="navbar">
+        <a href="../index.html" class="logo">BYAS</a>
+        <div class="dropdown">
+        <button class="dropbtn" onclick="toggleDropdown()">
+            Chương 16 <span class="arrow-down">❥・➤</span>
+        </button>
+        <div id="chapterDropdown" class="dropdown-content">
+            <div class="dropdown-header">            
+                <a href="csmccn.html" style="color: #00d4ff;">⇜ Cuộc sống mới của công nương</a>            
+                <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 5px 0;">                
+            </div>
+            <div id="dynamic-chapters"></div>    
+        </div>
+    </div>
+    </header>
+
+    <div class="chapter-container">
+        <img src="../image/csmccn/c16/001.jpg" alt="Page 1" loading="eager" decoding="sync">
+        <img src="../image/csmccn/c16/002.jpg" alt="Page 2" loading="lazy" decoding="async">
+        <img src="../image/csmccn/c16/003.jpg" alt="Page 3" loading="lazy" decoding="async">
+        <img src="../image/csmccn/c16/004.jpg" alt="Page 4" loading="lazy" decoding="async">
+        <img src="../image/csmccn/c16/005.jpg" alt="Page 5" loading="lazy" decoding="async">
+    </div>
+
+    <div class="navigation">
+        <div class="btn-wrapper">
+            <a href="15.html" class="nav-btn" id="prevBtn">
+                <div class="btn-core">⇜</div>
+                <div class="btn-label"></div>
+            </a>
+            <span class="nav-hint"></span>
+        </div>
+
+        <div class="btn-wrapper">
+            <a href="17.html" class="nav-btn" id="nextBtn">
+                <div class="btn-core">⇝</div>
+                <div class="btn-label"></div>
+            </a>
+            <span class="nav-hint"></span>
+        </div>
+    </div>
+
+    <script>
+        // 1. CHỨC NĂNG PHÍM MŨI TÊN
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowLeft") {
+                // Nhấn mũi tên trái -> Quay lại (nếu không bị disabled)
+                const prevLink = document.getElementById('prevBtn').getAttribute('href');
+                if (!document.getElementById('prevBtn').classList.contains('disabled')) {
+                    window.location.href = prevLink;
+                }
+            } else if (event.key === "ArrowRight") {
+                // Nhấn mũi tên phải -> Chương kế tiếp
+                const nextLink = document.getElementById('nextBtn').getAttribute('href');
+                if (!document.getElementById('nextBtn').classList.contains('disabled')) {
+                    window.location.href = nextLink;
+                }
+            }
+        });
+
+        // 3. CHỨC NĂNG PHÍM HOME/END
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Home") {
+                event.preventDefault(); // Chặn hành vi mặc định (nếu có)
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth" // Cuộn mượt mà lên đầu trang
+                });
+            } else if (event.key === "End") {
+                event.preventDefault();
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: "smooth" // Cuộn mượt mà xuống cuối trang
+                });
+            }
+        });
+
+        // 2. HIỆU ỨNG PARALLAX SAO (ĐỒNG BỘ)
+
+        /* Hàm đóng mở Dropdown */
+        function toggleDropdown() {
+            document.getElementById("chapterDropdown").classList.toggle("show");
+        }
+        function toggleDropdown() {
+            const dropdown = document.getElementById("chapterDropdown");
+                dropdown.classList.toggle("show");
+    
+    
+            // Tự động cuộn đến vị trí chương đang được đánh dấu là 'active'
+            if (dropdown.classList.contains("show")) {
+                const activeItem = dropdown.querySelector(".active");
+                if (activeItem) {
+                    activeItem.scrollIntoView({ block: "nearest" });
+                }
+            }
+        }
+
+        /* Đóng menu nếu người dùng click ra ngoài vùng menu */
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        /* lưu lịch sử đọc khi sang chương */
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Xác định ID truyện (phải khớp hoàn toàn với tên ở trang mô tả)
+            // Ở trang mô tả bạn dùng thẻ <h1> để lấy tên, 
+            // ở đây ta lấy từ link "Quay lại" trong dropdown cho chính xác
+            const storyTitleElement = document.querySelector(".dropdown-header a");
+            if (!storyTitleElement) return;
+
+            const storyTitle = storyTitleElement.innerText.replace("⇜", "").trim();
+            const storageKey = "readChapters_" + storyTitle;
+
+            // 2. Lấy tên file hiện tại (ví dụ: "1.html")
+            const currentChapter = window.location.pathname.split("/").pop();
+
+            // 3. Cập nhật localStorage
+            let readChapters = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+            if (currentChapter && !readChapters.includes(currentChapter)) {
+                readChapters.push(currentChapter);
+                localStorage.setItem(storageKey, JSON.stringify(readChapters));
+                console.log("Đã lưu lịch sử cho: " + currentChapter);
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const chapterContainer = document.getElementById('dynamic-chapters');
+            let chapterHTML = "";
+            // Lấy tên file hiện tại (ví dụ: "1.html")
+            const currentPage = window.location.pathname.split("/").pop();
+            for (let i = 1; i <= 130; i++) {
+                const fileName = i + ".html";
+                // Kiểm tra nếu tên file trùng với vòng lặp thì thêm class active
+                const activeClass = (fileName === currentPage) ? 'class="active"' : '';
+                chapterHTML += `<a href="${fileName}" ${activeClass}>Chương ${i}</a>\n`;
+            }
+
+            chapterContainer.innerHTML = chapterHTML;
+            // Sau khi tạo xong, tự động cuộn đến chương active để người dùng thấy ngay
+            const activeItem = chapterContainer.querySelector(".active");
+            if (activeItem) {
+                activeItem.scrollIntoView({ block: "nearest" });
+            }
+        });
+    </script>
+</body>
+</html>
