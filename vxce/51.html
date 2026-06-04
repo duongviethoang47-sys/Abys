@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vòng xoáy chị em  (´｡•᎑•)っ</title>
+    <style>
+        /* 1. CẤU HÌNH NỀN VÀ SAO */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            color: white;
+            background: #050505 url('https://images.unsplash.com/photo-1506318137071-a8e063b4b519?q=80&w=2070') fixed center/cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stars-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            z-index: 0; pointer-events: none;
+            opacity: 0.8; 
+            filter: brightness(2.5) contrast(1.2); 
+            background-attachment: fixed;
+            transform: none !important;
+        }
+       
+        /* 2. NAVBAR & LOGO */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 30px; height: 60px;
+            background: rgba(26, 26, 26, 0.9); backdrop-filter: blur(10px);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 24px;
+            text-decoration: none;
+            font-weight: normal;
+            background: linear-gradient(90deg, #00d4ff, #00ff88, #00d4ff, #ff00ff, #00d4ff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 3s linear infinite;
+            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.8)) 
+                    drop-shadow(0 0 15px rgba(0, 212, 255, 0.6))
+                    drop-shadow(0 0 30px rgba(0, 212, 255, 0.4));
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        /* 3. NỘI DUNG CHƯƠNG (ẢNH TRUYỆN) */
+        .chapter-container {
+            position: relative; 
+            z-index: 1;
+            margin-top: 80px;
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .chapter-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: -1px 0 0 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            filter: saturate(125%) contrast(105%);
+            backface-visibility: hidden;
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 1000px;
+            image-rendering: -webkit-optimize-contrast;
+            will-change: transform; 
+            transform: translateZ(0);
+        }
+
+        /* 4. ĐIỀU HƯỚNG (SCI-FI STYLE) */
+        .navigation {
+            position: relative; z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 80px;
+            padding: 80px 0 120px;
+            width: 100%;
+        }
+
+        .nav-btn {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.5s;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3), inset 0 0 15px rgba(0, 212, 255, 0.3);
+            animation: rotateRing 4s linear infinite;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 115%;
+            height: 115%;
+            border: 2px dashed rgba(255, 0, 255, 0.4);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2), inset 0 0 15px rgba(255, 0, 255, 0.2);
+            animation: rotateRingRev 10s linear infinite;
+        }
+
+        @keyframes rotateRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotateRingRev {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        .btn-core {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            border: 1px solid rgba(0, 212, 255, 0.8);
+            color: #00d4ff;
+            font-size: 30px;
+            text-shadow: 0 0 10px #00d4ff;
+            transition: 0.4s;
+        }
+
+        .nav-btn:hover .btn-core {
+            box-shadow: 0 0 30px #00d4ff, inset 0 0 20px #00d4ff;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-btn:hover::before {
+            border-color: #00d4ff;
+            box-shadow: 0 0 40px #00d4ff;
+        }
+
+        .btn-label {
+            position: absolute;
+            bottom: -35px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #00d4ff;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px #00d4ff;
+        }
+
+        .nav-hint {
+            position: absolute;
+            bottom: -60px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Nút màu tím cho "Tiếp theo" */
+        #nextBtn::before { border-color: rgba(255, 0, 255, 0.5); box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); }
+        #nextBtn .btn-core { border-color: #ff00ff; color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+        #nextBtn:hover .btn-core { box-shadow: 0 0 30px #ff00ff, inset 0 0 20px #ff00ff; }
+        #nextBtn .btn-label { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+
+        .nav-btn.disabled {
+            filter: grayscale(1);
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* 5. DROPDOWN MENU */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ccc;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .dropbtn:hover {
+            border-color: #00d4ff;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .arrow-down {
+            font-size: 10px;
+            margin-left: 5px;
+            color: #00d4ff;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(15px);
+            min-width: 250px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            animation: slideDown 0.3s ease;
+            padding-top: 0;
+        }
+
+        .dropdown-content::-webkit-scrollbar { width: 6px; }
+        .dropdown-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        .dropdown-content::-webkit-scrollbar-thumb { background: #00d4ff; border-radius: 10px; box-shadow: 0 0 10px #00d4ff; }
+        .dropdown-content::-webkit-scrollbar-thumb:hover { background: #00ff88; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-content a {
+            color: #aaa;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            padding-left: 20px;
+        }
+
+        .dropdown-content a.active {
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+            font-weight: bold;
+        }
+
+        .show { display: block; }
+
+        .dropdown-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(20, 20, 20, 0.98);
+            backdrop-filter: blur(10px);
+        }
+
+        .all-chapter-special {
+            color: #ff00ff !important;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid rgba(255, 0, 255, 0.3) !important;
+            margin: 8px;
+            border-radius: 8px;
+            background: rgba(255, 0, 255, 0.05);
+            transition: all 0.3s ease !important;
+            display: block;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .all-chapter-special:hover {
+            background: rgba(255, 0, 255, 0.2) !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5), inset 0 0 10px rgba(255, 0, 255, 0.9);
+            border-color: #ff00ff !important;
+            transform: translateY(-2px);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="stars-overlay"></div>
+
+    <header class="navbar">
+        <a href="../index.html" class="logo">BYAS</a>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown()">
+                Chương <span id="chapterNumBtn"></span> <span class="arrow-down">❥・➤</span>
+            </button>
+            <div id="chapterDropdown" class="dropdown-content">
+                <div class="dropdown-header">            
+                    <a href="vxce.html" style="color: #00d4ff;">⇜ Vòng xoáy chị em</a>            
+                    <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 5px 0;">                
+                </div>
+                <a href="all.html" class="all-chapter-special">(´｡•᎑•)っ</a> 
+                <div id="dynamic-chapters"></div>    
+            </div>
+        </div>
+    </header>
+
+    <div class="chapter-container">
+        <img src="../image/vxce/c51/001.webp" alt="Page 1" loading="eager" decoding="sync">
+        <img src="../image/vxce/c51/002.webp" alt="Page 2" loading="lazy" decoding="async">
+        <img src="../image/vxce/c51/003.webp" alt="Page 3" loading="lazy" decoding="async">
+        <img src="../image/vxce/c51/004.webp" alt="Page 4" loading="lazy" decoding="async">
+        <img src="../image/vxce/c51/005.webp" alt="Page 5" loading="lazy" decoding="async">
+        <img src="../image/vxce/c51/006.webp" alt="Page 6" loading="lazy" decoding="async">
+        <img src="../image/vxce/c51/007.webp" alt="Page 7" loading="lazy" decoding="async">
+        <img src="../image/vxce/c51/008.webp" alt="Page 8" loading="lazy" decoding="async">
+    </div>
+
+    <div class="navigation">
+        <div class="btn-wrapper">
+            <a id="prevBtn" class="nav-btn">
+                <div class="btn-core">⇜</div>
+                <div class="btn-label"></div>
+            </a>
+            <span class="nav-hint"></span>
+        </div>
+
+        <div class="btn-wrapper">
+            <a id="nextBtn" class="nav-btn">
+                <div class="btn-core">⇝</div>
+                <div class="btn-label"></div>
+            </a>
+            <span class="nav-hint"></span>
+        </div>
+    </div>
+
+    <script>
+        const storyTitle = "Vòng xoáy chị em";
+        const storageKey = "readChapters_" + storyTitle;
+
+        // 1. ĐÓNG MỞ DROPDOWN MENU
+        function toggleDropdown() {
+            const dropdown = document.getElementById("chapterDropdown");
+            dropdown.classList.toggle("show");
+            if (dropdown.classList.contains("show")) {
+                const activeItem = dropdown.querySelector(".active");
+                if (activeItem) {
+                    activeItem.scrollIntoView({ block: "nearest" });
+                }
+            }
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // 2. ĐIỀU HƯỚNG PHÍM TẮT
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowLeft") {
+                const prevBtn = document.getElementById('prevBtn');
+                if (prevBtn && !prevBtn.classList.contains('disabled') && prevBtn.getAttribute('href')) {
+                    window.location.href = prevBtn.getAttribute('href');
+                }
+            } else if (event.key === "ArrowRight") {
+                const nextBtn = document.getElementById('nextBtn');
+                if (nextBtn && !nextBtn.classList.contains('disabled') && nextBtn.getAttribute('href')) {
+                    window.location.href = nextBtn.getAttribute('href');
+                }
+            } else if (event.key === "Home") {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else if (event.key === "End") {
+                event.preventDefault();
+                window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+            }
+        });
+
+        // 3. XỬ LÝ TOÀN BỘ LOGIC KHI TẢI TRANG
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sửa lỗi lấy số chương bằng Regex: Tìm tất cả các chữ số đứng trước đuôi .html
+            const match = window.location.pathname.match(/(\d+)\.html/);
+            const currentChapterNum = match ? parseInt(match[1]) : NaN;
+            const maxChapter = 215; 
+
+            // Ghi nhận lịch sử cho chương hiện tại (Chạy ngay khi vừa tải xong trang)
+            if (!isNaN(currentChapterNum)) {
+                try {
+                    let readChapters = JSON.parse(localStorage.getItem(storageKey)) || [];
+                    if (!readChapters.includes(currentChapterNum)) {
+                        readChapters.push(currentChapterNum);
+                    }
+                    localStorage.setItem(storageKey, JSON.stringify(readChapters));
+                } catch (e) {
+                    console.error("Không thể lưu lịch sử đọc:", e);
+                }
+            }
+
+            // Lấy danh sách đã đọc để xử lý giao diện dropdown
+            let readList = [];
+            try {
+                readList = JSON.parse(localStorage.getItem(storageKey)) || [];
+            } catch(e) {}
+
+            // Tạo danh sách chương động và đổi màu tối hơn cho chương đã đọc
+            const chapterContainer = document.getElementById('dynamic-chapters');
+            if (chapterContainer) {
+                let chapterHTML = "";
+                for (let i = 1; i <= maxChapter; i++) {
+                    const fileName = i + ".html";
+                    
+                    if (i === currentChapterNum) {
+                        // Chương đang đọc: Giữ nguyên class="active" để ăn màu xanh lá mặc định của bạn
+                        chapterHTML += `<a href="${fileName}" class="active">Chương ${i}</a>\n`;
+                    } else if (readList.includes(i)) {
+                        // Chương đã đọc: Chỉ làm tối màu đi (Ví dụ: màu xám #555), không gạch ngang
+                        chapterHTML += `<a href="${fileName}" style="color: #555555;">Chương ${i}</a>\n`;
+                    } else {
+                        // Chương chưa đọc: Để màu mặc định của thẻ <a> trong dropdown
+                        chapterHTML += `<a href="${fileName}">Chương ${i}</a>\n`;
+                    }
+                }
+                chapterContainer.innerHTML = chapterHTML;
+            }
+
+            // Cập nhật các nút bấm trên thanh điều hướng
+            if (!isNaN(currentChapterNum)) {
+                document.title = `${storyTitle}  (´｡•᎑•)っ  Chương ${currentChapterNum}`;
+
+                const btnNumSpan = document.getElementById("chapterNumBtn");
+                if (btnNumSpan) btnNumSpan.textContent = currentChapterNum;
+
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+
+                if (currentChapterNum > 1) {
+                    prevBtn.href = (currentChapterNum - 1) + ".html";
+                    prevBtn.classList.remove("disabled");
+                } else {
+                    prevBtn.removeAttribute("href");
+                    prevBtn.classList.add("disabled"); 
+                }
+
+                if (currentChapterNum < maxChapter) {
+                    nextBtn.href = (currentChapterNum + 1) + ".html";
+                    nextBtn.classList.remove("disabled");
+                } else {
+                    nextBtn.removeAttribute("href");
+                    nextBtn.classList.add("disabled"); 
+                }
+            }
+        });
+    </script>
+</body>
+</html>
