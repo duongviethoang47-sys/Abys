@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo Ghoul - Mùa 1 Tập 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        /* 1. ĐỊNH DẠNG CHUNG */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: white;
+            background-color: #050505; 
+            background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4b519?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh; 
+            overflow-x: hidden;
+        }
+
+        /* 2. HIỆU ỨNG SAO LẤP LÁNH */
+        .stars-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 1;
+            filter: brightness(2.5) contrast(1.5);
+            animation: twinkle 2.5s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.5; 
+                transform: scale(1); 
+                filter: brightness(2);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.08); 
+                filter: brightness(4) contrast(1.2); 
+            }
+        }
+
+        /* 3. HEADER & NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 95px; 
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 52px; 
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-decoration: none;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #00d4ff, #00ff88, #ff00ff, #00d4ff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoGradient 3s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6));
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        @keyframes logoGradient {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        .logo:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
+            transform: scale(1.15) rotate(-2deg);
+        }
+
+        /* NÚT MENU & OVERLAY */
+        .menu-btn { cursor: pointer; z-index: 3000; padding: 10px; }
+        .menu-btn span { display: block; width: 30px; height: 3px; background: white; margin: 6px 0; transition: 0.4s; }
+        .open .bar1 { transform: rotate(-45deg) translate(-7px, 7px); }
+        .open .bar2 { opacity: 0; }
+        .open .bar3 { transform: rotate(45deg) translate(-6px, -7px); }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: flex-end;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+        .overlay.active { opacity: 1; visibility: visible; }
+        .menu-wrapper { width: 320px; height: 100%; position: relative; overflow: hidden; }
+        .menu-content {
+            position: absolute;
+            top: 0; right: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 120px 0 30px 0;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        .overlay.active #mainMenu { transform: translateX(0); }
+        .menu-content a {
+            display: block;
+            padding: 15px 30px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #eee;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255,0.05);
+            transition: 0.3s;
+        }
+        .menu-content a:hover { color: #00d4ff; padding-left: 40px; background: rgba(0, 212, 255, 0.1); }
+
+        /* 4. CONTAINER CHÍNH */
+        .sub-page-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 140px auto 100px; 
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .glass-box {
+            background: rgba(10, 10, 10, 0.4);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translateY(0);
+        }
+
+        .glass-box:hover {
+            border-color: rgba(114, 75, 207, 0.7);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(114, 75, 207, 0.3), 0 0 45px rgba(255, 0, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        /* BOX 1: PHẦN VIDEO & THÔNG TIN */
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Khung chứa Video */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; 
+            height: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #000;
+        }
+
+        /* Đã cập nhật: CSS tối ưu cho iFrame nhúng từ server ngoài */
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+            outline: none;
+            /* Đánh lừa thị giác giúp phim anime hiển thị sắc nét, sâu màu hơn */
+            filter: contrast(1.04) brightness(1.02);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* CỤM Ô THÔNG BÁO NHANH TRÊN VIDEO */
+        .video-toast {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 0, 0, 0.85);
+            color: #00d4ff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            z-index: 2147483647; 
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .video-toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .info-details h1 { color: #00d4ff; font-size: 28px; margin-bottom: 5px; }
+        .info-details h3 { color: #00ff88; font-size: 18px; margin-bottom: 15px; }
+        
+        .description-content {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* CỤM NÚT ĐIỀU HƯỚNG TẬP PHIM */
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            margin-top: -5px;
+        }
+
+        .btn-nav {
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-nav:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: #00d4ff;
+            color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* BOX 2: DANH SÁCH TẬP PHIM & SEASONS */
+        .links-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .box-title {
+            color: #00ff88; 
+            text-align: left; 
+            border-left: 5px solid #00ff88; 
+            padding-left: 15px;
+            font-size: 22px;
+        }
+
+        /* Thanh chứa các nút chọn Season */
+        .season-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .btn-season {
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ccc;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-season:hover, .btn-season.active {
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        .episode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 12px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .episode-grid a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .episode-grid a:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .episode-grid a.read {
+            color: #a29bfe !important;
+            border-color: #6c5ce7;
+            background: rgba(108, 92, 231, 0.15);
+        }
+
+        .episode-grid a.current-watching {
+            border-color: #00ff88 !important;
+            color: #00ff88 !important;
+            background: rgba(0, 212, 255, 0.1) !important;
+            box-shadow: 0 0 12px rgba(0, 255, 136, 0.5) !important;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(to bottom, #00d4ff, #ff00ff); 
+            border-radius: 10px; 
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 38px; }
+            .navbar { height: 80px; }
+            .sub-page-container { margin-top: 110px; }
+            .episode-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; }
+        }
+
+        #videoContainer:fullscreen iframe {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100vh !important;
+        }
+        #videoContainer:-webkit-full-screen iframe {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        #episode-container {
+            overflow-y: auto !important;
+            scrollbar-gutter: stable !important;
+        }
+
+        /* CSS bổ sung đồng bộ giao diện Season & Lưới tập phim */
+        .season-tabs::-webkit-scrollbar { height: 4px; }
+        .tab-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .tab-item:hover, .tab-item.active {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: #00d4ff;
+            color: #00d4ff;
+        }
+        .season-title {
+            color: #ff00ff;
+            font-size: 18px;
+            border-left: 3px solid #ff00ff;
+            padding-left: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+        }
+        .episodes-grid a {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 14px 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            transition: 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .episodes-grid a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+            color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+        }
+    </style>
+    <style>
+        body {
+            background-image: url(https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482888AZX/anh-mo-ta.png) !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-overlay"></div>
+
+    <header class="navbar">
+        <a href="../../index.html" class="logo">BYAS</a> 
+        <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+            <span class="bar1"></span>
+            <span class="bar2"></span>
+            <span class="bar3"></span>
+        </div>
+    </header>
+
+    <div id="menuOverlay" class="overlay" onclick="closeOutside(event)">
+        <div class="menu-wrapper">
+            <div class="menu-content" id="mainMenu">
+                <nav>
+                    <a href="../../index.html">Trang chủ</a>
+                    <a href="../../page/matnao.html">Mất não</a>
+                    <a href="../../page/kmau.html">Không màu</a>
+                    <a href="../../page/hatm.html">HManhwa</a>
+                    <a href="../../page/hatmg.html">HManga</a>
+                    <a href="../../page/hatv.html">HVid</a>
+                    <a href="../../page/hhtq.html">Hoạt hình trung quốc</a>
+                    <a href="../../page/anime.html">Anime</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="sub-page-container">
+        
+        <div class="glass-box info-box">
+            <div class="video-wrapper" id="videoContainer">
+                <div class="video-toast" id="videoToast">Thông báo</div>
+
+                <iframe 
+                    src="https://ahay.stream/embed-jw/786" 
+                    allowfullscreen="true" 
+                    scrolling="no">
+                </iframe>
+            </div>
+
+            <div class="info-details">
+                <a href="../tg.html" style="text-decoration: none;"><h1>Tokyo Ghoul</h1></a> 
+                <h3 id="episode-title">Đang tải...</h3>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="#" id="btnPrev" class="btn-nav">◀ Tập Trước</a>
+            <a href="#" id="btnNext" class="btn-nav">Tập Tiếp Theo ▶</a>
+        </div>
+
+        <div class="glass-box links-box" style="height: 600px; flex-direction: column; padding:30px 40px 40px;">
+            <div style="display: flex; justify-content:space-between; align-items: center; width: 100%;">
+                <h2 style="color:#00ff88; text-align: left; border-left: 5px solid #00ff88; padding-left: 15px;">Chọn tập phim</h2>
+            </div>
+            
+            <div class="season-tabs" id="seasonTabs" style="display:flex; gap: 10px; margin: 15px 0 5px; overflow-x:auto; padding-bottom:5px;"></div>
+            <hr style="border:0.5px solid rgba(255,0,255,0.2); margin: 5px 0 10px;">
+            <div class="episode-grid" id="episode-container"></div>             
+        </div>
+
+    </div>
+
+    <script src="../config.js"></script>
+
+    <script>
+        // --- 1. BIẾN TOÀN CỤC VÀ KHỞI TẠO ĐƯỜNG DẪN DỰA TRÊN FILE HIỆN TẠI ---
+        const seasonContainer = document.getElementById('seasonTabs');
+        const episodeContainer = document.getElementById('episode-container');
+        const episodeTitle = document.getElementById('episode-title');
+        const btnPrev = document.getElementById("btnPrev");
+        const btnNext = document.getElementById("btnNext");
+
+        let displaySeasonIndex = 0; 
+        let globalEpNum = 1;        
+        let currentFolder = "";     
+        let currentFileNum = 1;     
+
+        let watchedEpisodes = getReadChapters();
+
+        // --- 2. KHỞI TẠO GIAO DIỆN CHỌN SEASON ---
+        function initSeasons() {
+            if (!seasonContainer) return;
+            let seasonHtml = "";
+            seasonConfig.forEach((season, index) => {
+                seasonHtml += `<button class="btn-season ${index === displaySeasonIndex ? 'active' : ''}" data-index="${index}" onclick="changeSeason(${index})">${season.name}</button>`;
+            });
+            seasonContainer.innerHTML = seasonHtml;
+        }
+
+        // --- 3. ĐỔ TẬP PHIM RA LƯỚI DỰA TRÊN INDEX SEASON ĐƯỢC CHỌN ---
+        function renderEpisodes(seasonIndex) {
+            if (!episodeContainer) return;
+            const season = seasonConfig[seasonIndex];
+            if (!season) return;
+
+            let gridContent = "";
+            for (let i = season.startEp; i <= season.endEp; i++) {
+                let fileNum = i - season.startEp + 1;
+                let episodeDisplay = i < 10 ? "0" + i : i;
+                
+                let classes = [];
+                if (watchedEpisodes.includes(i)) classes.push("read");
+                if (i === globalEpNum) classes.push("current-watching");
+
+                let targetLink = `../${season.folder}/${fileNum}.html`;
+
+                gridContent += `<a href="${targetLink}" class="${classes.join(' ')}" data-global-ep="${i}">${fileNum}</a>\n`;
+            }
+            episodeContainer.innerHTML = gridContent;
+            
+            const epNodes = episodeContainer.querySelectorAll("a");
+            epNodes.forEach(ep => {
+                ep.addEventListener("click", function() {
+                    const epNum = parseInt(ep.getAttribute("data-global-ep"));
+                    saveReadChapter(epNum);
+                });
+            });
+        }
+
+        // --- 4. SỰ KIỆN CHUYỂN TAB MÙA ---
+        function changeSeason(seasonIndex) {
+            displaySeasonIndex = seasonIndex;
+            const buttons = seasonContainer.querySelectorAll('.btn-season');
+            buttons.forEach(btn => {
+                if(parseInt(btn.getAttribute('data-index')) === seasonIndex) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderEpisodes(displaySeasonIndex);
+        }
+
+        // --- 5. ĐIỀU HƯỚNG TIẾP THEO / TRƯỚC ĐI XUYÊN THƯ MỤC ---
+        function updateNavigationAndTitle() {
+            try {
+                const minGlobalEp = seasonConfig[0].startEp;
+                const maxGlobalEp = seasonConfig[seasonConfig.length - 1].endEp;
+
+                if (globalEpNum <= minGlobalEp) {
+                    btnPrev.style.opacity = "0.4";
+                    btnPrev.style.pointerEvents = "none";
+                } else {
+                    btnPrev.setAttribute("href", "../" + getPathFromEpNum(globalEpNum - 1));
+                    btnPrev.style.opacity = "1";
+                    btnPrev.style.pointerEvents = "auto";
+                }
+
+                if (globalEpNum >= maxGlobalEp) {
+                    btnNext.style.opacity = "0.4";
+                    btnNext.style.pointerEvents = "none";
+                } else {
+                    btnNext.setAttribute("href", "../" + getPathFromEpNum(globalEpNum + 1));
+                    btnNext.style.opacity = "1";
+                    btnNext.style.pointerEvents = "auto";
+                }
+
+                const currentSeason = seasonConfig.find(s => s.folder === currentFolder);
+                if (currentSeason && episodeTitle) {
+                    // Lấy số tập tương đối (Tập phim thực tế của mùa đó)
+                    let localEpNum = globalEpNum - currentSeason.startEp + 1;
+                    
+                    // Định dạng hiển thị (Ví dụ: 01 thay vì 1)
+                    let formattedEp = localEpNum < 10 ? "0" + localEpNum : localEpNum;
+                    
+                    // Cập nhật lên giao diện công thức chuẩn
+                    episodeTitle.innerText = `${currentSeason.name} - Tập ${formattedEp}`;
+                }
+            } catch (error) {
+                console.error("Lỗi cập nhật tiêu đề điều hướng:", error);
+                // Phương án dự phòng khẩn cấp nếu có lỗi phát sinh để không bị kẹt "Đang tải..."
+                if (episodeTitle) {
+                    episodeTitle.innerText = `Tập phim ${currentFileNum}`;
+                }
+            }
+        }
+
+        // --- 6. XỬ LÝ KHI TẢI TRANG HOÀN TẤT ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const pathParts = window.location.pathname.split("/");
+            const fileName = pathParts.pop();              
+            currentFolder = pathParts.pop();              
+            currentFileNum = parseInt(fileName.replace('.html', '')); 
+
+            const currentSeason = seasonConfig.find(s => s.folder === currentFolder);
+            
+            if (currentSeason) {
+                globalEpNum = currentSeason.startEp + currentFileNum - 1;
+                displaySeasonIndex = seasonConfig.indexOf(currentSeason);
+            }
+
+            saveReadChapter(globalEpNum);
+            watchedEpisodes = getReadChapters(); 
+
+            initSeasons();
+            renderEpisodes(displaySeasonIndex);
+            updateNavigationAndTitle();
+
+            setTimeout(() => {
+                const currentElement = Array.from(episodeContainer.querySelectorAll("a")).find(ep => {
+                    return parseInt(ep.getAttribute("data-global-ep")) === globalEpNum;
+                });
+                if (currentElement) {
+                    const centerOffset = (episodeContainer.offsetHeight / 2) - (currentElement.offsetHeight / 2);
+                    episodeContainer.scrollTop = currentElement.offsetTop - centerOffset;
+                }
+            }, 400);
+        });
+
+        /* --- CÁC HÀM ĐIỀU KHIỂN VIDEO VÀ TRÌNH ĐƠN --- */
+        function toggleMenu() {
+            const btn = document.getElementById("menuBtn");
+            const overlay = document.getElementById("menuOverlay");
+            if(btn && overlay) {
+                btn.classList.toggle("open");
+                overlay.classList.toggle("active");
+            }
+        }
+
+        function closeOutside(e) {
+            if (e.target.id === "menuOverlay") toggleMenu();
+        }
+
+        window.addEventListener('scroll', function() {
+            const scrollValue = window.scrollY;
+            document.body.style.backgroundPositionY = (scrollValue * 0.3) + 'px';
+            const stars = document.querySelector('.stars-overlay');
+            if(stars) { stars.style.transform = `translateY(${scrollValue * -0.15}px)`; }
+        });
+
+        const videoContainer = document.getElementById("videoContainer");
+        const toast = document.getElementById("videoToast");
+        let toastTimeout;
+
+        function showToast(message) {
+            if(!toast) return;
+            clearTimeout(toastTimeout);
+            toast.innerText = message;
+            toast.classList.add("show");
+            toastTimeout = setTimeout(() => { toast.classList.remove("show"); }, 1200);
+        }
+
+        function toggleFullScreen() {
+            if(!videoContainer) return;
+            const requestMethod = videoContainer.requestFullscreen || videoContainer.webkitRequestFullScreen || videoContainer.mozRequestFullScreen || videoContainer.msRequestFullScreen;
+            const exitMethod = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+
+            if (!isFullscreen) {
+                if (requestMethod) {
+                    requestMethod.call(videoContainer).then(() => { showToast("🖵 Toàn màn hình"); }).catch(err => { console.error(err.message); });
+                }
+            } else {
+                if (exitMethod) { exitMethod.call(document); showToast("🗗 Thu nhỏ"); }
+            }
+        }
+
+        // Lưu ý: Đoạn lắng nghe phím tắt điều khiển (Tua, volume) cho thẻ <video> cũ ở cuối sẽ không còn tác dụng với thẻ <iframe> nhúng từ web khác do rào cản bảo mật Sandbox (Cross-Origin) của trình duyệt. 
+        // Tuy nhiên nút 'F' để bật Toàn Màn Hình vùng chứa (Container) vẫn được giữ lại để hoạt động bình thường!
+        window.addEventListener("keydown", function(e) {
+            if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+            if (e.key === "f" || e.key === "F") {
+                e.preventDefault();
+                toggleFullScreen();
+            }
+        }, true);
+    </script>
+</body>
+</html>
